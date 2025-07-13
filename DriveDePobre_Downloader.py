@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 import re
 from tqdm import tqdm
+import webbrowser
 
 
 class DriveDePobreGUI:
@@ -80,16 +81,14 @@ class DriveDePobreGUI:
         files_frame.rowconfigure(0, weight=1)
         
         # Treeview para arquivos (com árvore hierárquica)
-        columns = ("select", "size", "status")
+        columns = ("select", "status")
         self.tree = ttk.Treeview(files_frame, columns=columns, show="tree headings", height=15)
         
         # Configurar colunas
         self.tree.heading("select", text="Baixar")
-        self.tree.heading("size", text="Tamanho")
         self.tree.heading("status", text="Status")
         
         self.tree.column("select", width=60, anchor=tk.CENTER)
-        self.tree.column("size", width=100, anchor=tk.CENTER)
         self.tree.column("status", width=150, anchor=tk.CENTER)
         
         # Scrollbar para treeview
@@ -141,6 +140,20 @@ class DriveDePobreGUI:
         self.status_var = tk.StringVar(value="Pronto")
         status_label = ttk.Label(main_frame, textvariable=self.status_var)
         status_label.grid(row=5, column=0, columnspan=3)
+
+        # Créditos
+        credit_frame = ttk.Frame(main_frame)
+        credit_frame.grid(row=6, column=0, columnspan=3, pady=(10, 0))
+
+        credit_label = ttk.Label(credit_frame, text="Criado por")
+        credit_label.grid(row=0, column=0, sticky=tk.W)
+        
+        riique_link = ttk.Label(credit_frame, text="@riiquestudies", foreground="blue", cursor="hand2")
+        riique_link.grid(row=0, column=1, sticky=tk.W)
+        riique_link.bind("<Button-1>", lambda e: self.open_link("https://x.com/riiquestudies"))
+
+    def open_link(self, url):
+        webbrowser.open_new(url)
     
     def scan_folder(self):
         url = self.url_var.get().strip()
@@ -372,9 +385,9 @@ class DriveDePobreGUI:
             # Inserir item na árvore
             item_id = self.tree.insert(
                 parent_id, 
-                "end", 
+                "end",
                 text=display_name,
-                values=(select_text, "", file_data['size'], file_data['status']),
+                values=(select_text, file_data['status']),
                 open=False  # Pastas começam fechadas
             )
             
