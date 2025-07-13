@@ -44,7 +44,6 @@ Siga os passos abaixo para configurar e executar o projeto em sua máquina local
     git clone https://github.com/riique/DriveDePobre_Downloader.git
     cd DriveDePobre_Downloader
     ```
-    *(Substitua `https://github.com/riique/DriveDePobre_Downloader.git` pelo link real do seu repositório)*
 
 2.  **Instale as Dependências:**
     ```bash
